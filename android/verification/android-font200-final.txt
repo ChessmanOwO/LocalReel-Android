@@ -1,0 +1,6 @@
+
+dev.localreel.android.UiScreensTest:.
+
+Time: 6.585
+
+OK (1 test)

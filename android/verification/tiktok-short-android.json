@@ -1,0 +1,27 @@
+{
+  "source_url": "https://vm.tiktok.com/ZTR45GpSF/",
+  "android_runtime": true,
+  "synthetic_media": false,
+  "states": [
+    "queued",
+    "inspecting",
+    "error"
+  ],
+  "job": {
+    "id": "46947b9b-6704-41b9-9a77-f774994cbf91",
+    "platform": "TikTok",
+    "title": "Video",
+    "state": "error",
+    "quality": "ask",
+    "created_at": 1793259194196,
+    "heights": [],
+    "note": "",
+    "transcoded": false,
+    "error_code": "unsupported_url"
+  },
+  "reused_existing": false,
+  "success": false,
+  "case": "tiktok-short",
+  "seconds": 9.52,
+  "instrumentation_passed": false
+}

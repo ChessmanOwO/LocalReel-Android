@@ -1,0 +1,45 @@
+{
+  "source_url": "https://www.youtube.com/shorts/BGQWPY4IigY",
+  "android_runtime": true,
+  "synthetic_media": false,
+  "states": [
+    "queued",
+    "inspecting",
+    "awaiting_selection",
+    "inspecting",
+    "processing",
+    "complete"
+  ],
+  "job": {
+    "id": "76e937d0-ce80-4e13-a225-fb97b60961aa",
+    "platform": "YouTube",
+    "title": "MET THE LOVE OF MY LIFE ON AN AIRPLANE *caught on camera*",
+    "state": "complete",
+    "quality": "best",
+    "created_at": 1793258985105,
+    "heights": [
+      1280,
+      1080,
+      854,
+      720,
+      640,
+      480,
+      426,
+      360,
+      256,
+      240,
+      144
+    ],
+    "note": "Đã chuyển mã cho MP4 tương thích Android; có thể giảm chất lượng.",
+    "transcoded": true,
+    "progress": 1,
+    "received": 233717,
+    "size": 5346308
+  },
+  "reused_existing": false,
+  "success": true,
+  "bytes": 5346308,
+  "case": "youtube-shorts",
+  "seconds": 39.19,
+  "instrumentation_passed": true
+}

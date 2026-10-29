@@ -1,0 +1,16 @@
+* text=auto
+*.sh text eol=lf
+*.command text eol=lf
+gradlew text eol=lf
+*.swift text eol=lf
+*.py text eol=lf
+*.java text eol=lf
+*.xcconfig text eol=lf
+*.cjs text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.pbxproj text eol=lf
+*.plist text eol=lf
+*.zip binary
+*.jar binary
+*.png binary

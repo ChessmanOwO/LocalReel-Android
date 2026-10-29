@@ -1,0 +1,27 @@
+{
+  "source_url": "https://www.douyin.com/video/6961737553342991651",
+  "android_runtime": true,
+  "synthetic_media": false,
+  "states": [
+    "queued",
+    "inspecting",
+    "error"
+  ],
+  "job": {
+    "id": "78a70d39-f41d-4200-8ed0-a9f7a9d83944",
+    "platform": "Douyin",
+    "title": "Video",
+    "state": "error",
+    "quality": "ask",
+    "created_at": 1793259176118,
+    "heights": [],
+    "note": "",
+    "transcoded": false,
+    "error_code": "login_required"
+  },
+  "reused_existing": false,
+  "success": false,
+  "case": "douyin",
+  "seconds": 8.81,
+  "instrumentation_passed": false
+}

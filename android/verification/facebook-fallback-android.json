@@ -1,0 +1,39 @@
+{
+  "source_url": "https://www.facebook.com/cnn/videos/10155529876156509/",
+  "android_runtime": true,
+  "synthetic_media": false,
+  "states": [
+    "queued",
+    "inspecting",
+    "awaiting_selection",
+    "inspecting",
+    "downloading",
+    "processing",
+    "complete"
+  ],
+  "job": {
+    "id": "36496424-60f4-45bf-9760-44ba3df0792e",
+    "platform": "Facebook",
+    "title": "Holocaust survivor becomes US citizen",
+    "state": "complete",
+    "quality": "best",
+    "created_at": 1793260290543,
+    "heights": [
+      1080,
+      720,
+      540,
+      360
+    ],
+    "note": "Đã chuyển mã cho MP4 tương thích Android; có thể giảm chất lượng. Định dạng ưu tiên không truy cập được; đã dùng bản khả dụng từ cùng nguồn.",
+    "transcoded": true,
+    "progress": 1,
+    "received": 12474254,
+    "size": 20546330,
+    "width": 1080,
+    "height": 1080,
+    "fallback": true
+  },
+  "reused_existing": false,
+  "success": true,
+  "bytes": 20546330
+}

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dev.localreel.android.UrlPolicyTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-10-29T08:04:49" hostname="HAPHONG" time="0.008">
+  <properties/>
+  <testcase name="deduplicatesYouTubeVariants" classname="dev.localreel.android.UrlPolicyTest" time="0.002"/>
+  <testcase name="acceptsSharedTextFromSixPlatforms" classname="dev.localreel.android.UrlPolicyTest" time="0.003"/>
+  <testcase name="rejectsHostnameBypassAndCommands" classname="dev.localreel.android.UrlPolicyTest" time="0.001"/>
+  <testcase name="rejectsUnsafeQualityAndIdentifiers" classname="dev.localreel.android.UrlPolicyTest" time="0.0"/>
+  <testcase name="rejectsOversizedShares" classname="dev.localreel.android.UrlPolicyTest" time="0.0"/>
+  <testcase name="deduplicatesXhsWithoutDroppingAccessToken" classname="dev.localreel.android.UrlPolicyTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

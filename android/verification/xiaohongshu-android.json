@@ -1,0 +1,27 @@
+{
+  "source_url": "https://www.xiaohongshu.com/explore/6411cf99000000001300b6d9",
+  "android_runtime": true,
+  "synthetic_media": false,
+  "states": [
+    "queued",
+    "inspecting",
+    "error"
+  ],
+  "job": {
+    "id": "ba87920f-96a3-4d8c-824f-2bef28fdc626",
+    "platform": "Xiaohongshu",
+    "title": "Video",
+    "state": "error",
+    "quality": "ask",
+    "created_at": 1793259185115,
+    "heights": [],
+    "note": "",
+    "transcoded": false,
+    "error_code": "extraction_failed"
+  },
+  "reused_existing": false,
+  "success": false,
+  "case": "xiaohongshu",
+  "seconds": 8.86,
+  "instrumentation_passed": false
+}

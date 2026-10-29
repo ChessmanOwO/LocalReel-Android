@@ -1,0 +1,7 @@
+
+dev.localreel.android.LocalFlowsTest:.......
+dev.localreel.android.UiScreensTest:.
+
+Time: 26.626
+
+OK (8 tests)

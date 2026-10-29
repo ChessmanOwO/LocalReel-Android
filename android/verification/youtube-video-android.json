@@ -1,0 +1,36 @@
+{
+  "source_url": "https://youtu.be/jNQXAC9IVRw",
+  "android_runtime": true,
+  "synthetic_media": false,
+  "states": [
+    "queued",
+    "inspecting",
+    "awaiting_selection",
+    "inspecting",
+    "downloading",
+    "complete"
+  ],
+  "job": {
+    "id": "c1d85f94-d0b0-4e23-8b50-d88cad654531",
+    "platform": "YouTube",
+    "title": "Me at the zoo",
+    "state": "complete",
+    "quality": "best",
+    "created_at": 1793258968438,
+    "heights": [
+      240,
+      144
+    ],
+    "note": "Đã remux MP4 bằng streamcopy; không mã hóa lại hình/tiếng.",
+    "transcoded": false,
+    "progress": 1,
+    "received": 309288,
+    "size": 635479
+  },
+  "reused_existing": false,
+  "success": true,
+  "bytes": 635479,
+  "case": "youtube-video",
+  "seconds": 16.44,
+  "instrumentation_passed": true
+}

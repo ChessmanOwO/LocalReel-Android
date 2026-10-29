@@ -1,0 +1,35 @@
+{
+  "source_url": "https://www.tiktok.com/@hankgreen1/video/7047596209028074758",
+  "android_runtime": true,
+  "synthetic_media": false,
+  "states": [
+    "queued",
+    "inspecting",
+    "awaiting_selection",
+    "inspecting",
+    "downloading",
+    "complete"
+  ],
+  "job": {
+    "id": "3febf669-d50d-4e78-aed9-fc8cc3aee94a",
+    "platform": "TikTok",
+    "title": "TikTok video #7047596209028074758",
+    "state": "complete",
+    "quality": "best",
+    "created_at": 1793259162411,
+    "heights": [
+      1024
+    ],
+    "note": "Đã remux MP4 bằng streamcopy; không mã hóa lại hình/tiếng.",
+    "transcoded": false,
+    "progress": 1,
+    "received": 5076682,
+    "size": 5076763
+  },
+  "reused_existing": false,
+  "success": true,
+  "bytes": 5076763,
+  "case": "tiktok",
+  "seconds": 13.5,
+  "instrumentation_passed": true
+}
