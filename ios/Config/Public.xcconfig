@@ -1,3 +1,0 @@
-LOCALREEL_DEVELOPMENT_TEAM =
-LOCALREEL_BUNDLE_ID_PREFIX = com.example.localreel
-#include? "Local.xcconfig"

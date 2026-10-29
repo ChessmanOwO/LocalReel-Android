@@ -1,44 +1,29 @@
-# LocalReel
+# LocalReel Android
 
-Tool cá nhân tải video từ liên kết bài viết, xử lý trên thiết bị. Source iOS và Android là hai ứng dụng riêng, không dùng dịch vụ tải video trung gian.
+## Cài APK
 
-## Android — tải APK
+1. [Tải LocalReel-Android.apk](https://github.com/ChessmanOwO/LocalReel-Android/releases/download/android-v0.2-ondevice/LocalReel-Android.apk).
+2. Mở APK trên điện thoại Android 8 trở lên, CPU ARM64. Cho phép ứng dụng Files/trình duyệt cài từ nguồn này nếu Android hỏi.
+3. Mở LocalReel, dán liên kết rồi bấm **Tìm nguồn và tải**, hoặc chọn **Chia sẻ → LocalReel** từ app khác.
+4. Theo dõi ở **Tiến trình**. Tải xong, mở **Đã lưu** để xem và lưu video vào Thư viện hoặc Files.
 
-[Tải LocalReel-Android.apk trong Releases](https://github.com/ChessmanOwO/LocalReel/releases/tag/android-v0.2-ondevice).
+APK debug ký phát triển để cài cá nhân; đã thử máy giả lập Android 11, chưa thử điện thoại ARM64 thật.
 
-Android 8+; ARM64 cho điện thoại và x86_64 cho giả lập. Bản debug ký phát triển, cài cá nhân ngoài Play Store. File APK là bản tải thực, không phải demo giao diện. [Hướng dẫn Android](android/README.md) · [Báo cáo kiểm thử](android/verification/ANDROID-RESULTS.md).
+## Chạy từ source
 
-Đã tải thật trên giả lập Android 11 với 5 ca: YouTube video, YouTube Shorts, Facebook video, Instagram Reel, TikTok. Ba ca thất bại: Douyin cần đăng nhập, Xiaohongshu chưa trích xuất được, link TikTok rút gọn cũ không hợp lệ. Chưa kiểm thử điện thoại ARM64 thật. Không cam kết mọi video trên các nền tảng đều tải được.
+1. Cài Android Studio, **JDK 17**, SDK Platform 35 và Build Tools 34.0.0.
+2. Tải hoặc clone repo này, mở bằng Android Studio và chọn Gradle JDK 17.
+3. Chọn điện thoại hoặc máy giả lập rồi bấm **Run**. Hoặc build APK bằng terminal:
 
-## iOS — tự lưu Photos
+   ```sh
+   # macOS/Linux
+   chmod +x gradlew
+   ./gradlew assembleDebug
+   ```
 
-Source ở `ios/`. Dán link → Tải → app tự tìm nguồn → lưu Photos → báo thành công sau khi Photos xác nhận. Không có màn hình xem hoặc xuất/chia sẻ video thủ công. Xem [hướng dẫn iOS](ios/README-OnDevice.txt).
+   ```powershell
+   # Windows
+   .\gradlew.bat assembleDebug
+   ```
 
-1. Trên Mac, sao chép `ios/Config/Local.xcconfig.example` thành `ios/Config/Local.xcconfig`.
-2. Điền Team ID và Bundle ID của riêng bạn vào file local này; nó đã được Git bỏ qua. Nếu cập nhật app đã cài, dùng đúng Team và Bundle ID cũ.
-3. Mở `ios/LocalReel.xcodeproj`, chọn iPhone và Run. Không cần Mac/backend khi sử dụng app.
-
-**Bản sửa iOS chưa được compile Xcode hoặc kiểm thử tải/lưu Photos thật trong phiên này.** Các kiểm tra JavaScript/source không chứng minh app hoạt động trên iPhone. Repo công khai dùng cấu hình mẫu; không chứa signing key, chứng chỉ phát triển, token hay thiết lập Team/Bundle ID cá nhân.
-
-## Cập nhật bằng Git
-
-```sh
-git clone https://github.com/ChessmanOwO/LocalReel.git
-cd LocalReel
-git pull --ff-only
-# Sửa source, kiểm tra và build.
-git status
-git diff
-git add <cac-file-da-sua>
-git commit -m "fix: mo ta thay doi"
-git push
-```
-
-Repo `LocalReel` này là bản công khai với lịch sử sạch. Repo iOS riêng tư ban đầu được giữ riêng để không công khai lịch sử có thông tin thiết lập cá nhân. Từ nay cập nhật source công khai tại repo này. APK được đăng dưới Releases thay vì commit binary lớn vào Git.
-
-## Giới hạn và giấy phép
-
-Không vượt DRM, paywall hoặc quyền truy cập. Nội dung riêng tư, đã xóa, bị chặn hoặc nguồn đổi cách phát có thể không tải được. Không cam kết xóa watermark hay MP4 là file gốc người đăng tải.
-
-- Source iOS của LocalReel: [MIT](ios/LICENSE). YouTubeKit và tài nguyên đi kèm giữ giấy phép upstream.
-- Source/app Android: [GPL-3.0](android/COPYING); [thành phần và nguồn dependency](android/THIRD-PARTY-NOTICES.md). Source tương ứng của APK được cung cấp trong cùng release.
+APK build xong nằm ở `app/build/outputs/apk/debug/app-debug.apk`.
