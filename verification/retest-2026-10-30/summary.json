@@ -1,0 +1,22 @@
+{
+  "date": "2026-10-30",
+  "apk_version": "0.2-ondevice",
+  "apk_sha256": "28db3eddcbcc08f99c9c56c2aa531b53e851d4a753a2a38dba720bff574c3c48",
+  "exact_github_release_apk": true,
+  "emulator": "Android 11 / API30 / x86_64 / WHPX",
+  "physical_phone_tested": false,
+  "live_unique_cases": 8,
+  "downloads_succeeded": 3,
+  "downloads_failed": 5,
+  "additional_retries": 2,
+  "additional_retry_successes": 0,
+  "source_browser_launch_attempts": 0,
+  "python_unit_passed": 20,
+  "java_unit_passed": 6,
+  "native_flows_and_ui_passed": 8,
+  "native_font200_passed": 1,
+  "lint_errors": 0,
+  "lint_warnings": 6,
+  "app_runtime_source_modified": false,
+  "test_harness_modified": true
+}

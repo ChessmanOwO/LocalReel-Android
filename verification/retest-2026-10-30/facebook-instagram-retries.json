@@ -1,0 +1,73 @@
+[
+  {
+    "source_url": "https://www.facebook.com/cnn/videos/10155529876156509/",
+    "android_runtime": true,
+    "synthetic_media": false,
+    "states": [
+      "queued",
+      "inspecting",
+      "downloading",
+      "error"
+    ],
+    "input_mode": "paste",
+    "job": {
+      "id": "a7131e96-c9c0-4796-ae2b-d98fa79ade2f",
+      "platform": "Facebook",
+      "title": "Holocaust survivor becomes US citizen",
+      "state": "error",
+      "quality": "best",
+      "created_at": 1793339083140,
+      "heights": [
+        1080,
+        720,
+        540,
+        360
+      ],
+      "note": "Định dạng ưu tiên chưa truy cập được. Đang thử bản MP4 dự phòng từ cùng nguồn.",
+      "transcoded": false,
+      "progress": 0.6062022947424351,
+      "received": 8419328,
+      "error_code": "network"
+    },
+    "reused_existing": false,
+    "success": false,
+    "source_browser_launch_attempts": 0,
+    "case": "facebook",
+    "seconds": 11.88,
+    "instrumentation_passed": false
+  },
+  {
+    "source_url": "https://www.instagram.com/reel/Dcea3BiPTBm/",
+    "android_runtime": true,
+    "synthetic_media": false,
+    "states": [
+      "queued",
+      "inspecting",
+      "error"
+    ],
+    "input_mode": "paste",
+    "job": {
+      "id": "39a59ebf-cd6d-4bf0-a1da-5df7b13b8086",
+      "platform": "Instagram",
+      "title": "Video by nasajohnson",
+      "state": "error",
+      "quality": "best",
+      "created_at": 1793339095014,
+      "heights": [
+        1920,
+        1280
+      ],
+      "note": "",
+      "transcoded": false,
+      "progress": 0.1000954484629877,
+      "received": 1024,
+      "error_code": "network"
+    },
+    "reused_existing": false,
+    "success": false,
+    "source_browser_launch_attempts": 0,
+    "case": "instagram",
+    "seconds": 13.22,
+    "instrumentation_passed": false
+  }
+]
