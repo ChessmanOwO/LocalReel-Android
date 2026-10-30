@@ -30,6 +30,11 @@ class Quiet:
     def error(self, *args, **kwargs): pass
 
 
+# Keep individual CDN requests short on the bundled mobile TLS runtime. HttpFD
+# validates Content-Range and safely restarts if a server does not support ranges.
+HTTP_CHUNK_BYTES = 1 << 20
+
+
 class SafeYDL(YoutubeDL):
     def __init__(self, params=None, **kwargs):
         os.environ["YTDLP_NO_PLUGINS"] = "1"
@@ -148,7 +153,13 @@ def download_selected(ydl, info, selected, work, max_bytes):
         single = {**info, **fmt}
         for key in ("requested_formats", "requested_downloads", "entries", "formats"):
             single.pop(key, None)
-        success, _ = ydl.dl(str(path), single)
+        native = getattr(ydl, "native_http_downloader", None)
+        if native and fmt.get("protocol") in ("http", "https"):
+            validate_media_url(single.get("url", ""))
+            native(index, single)
+            success = True
+        else:
+            success, _ = ydl.dl(str(path), single)
         if not success or not path.is_file():
             raise Failure("extraction_failed")
         inputs.append(path)
@@ -163,6 +174,55 @@ def progressive_fallback(platform, formats, error):
     if not progressive:
         raise error
     return choose(progressive, "best")
+
+
+def clear_streams(work):
+    # Only the current job's generated names, never source-derived filenames.
+    for path in work.glob("stream-*"):
+        if path.is_file():
+            path.unlink()
+
+
+def download_attempt(ydl, post, info, quality, work, max_bytes, ffprobe):
+    formats = usable_formats(info)
+    selected = choose(formats, quality)
+    try:
+        return download_selected(ydl, info, selected, work, max_bytes), False
+    except Exception as error:
+        alternate = progressive_fallback(post.platform, formats, error)
+        if [f["url"] for f in alternate] == [f["url"] for f in selected]:
+            raise
+        clear_streams(work)
+        emit({"state": "downloading", "progress": None,
+              "note": "Đang tự thử bản MP4 khả dụng từ cùng nguồn."})
+        inputs = download_selected(ydl, info, alternate, work, max_bytes)
+        if quality != "best":
+            video = next((stream for stream in probe(inputs[0], ffprobe).get("streams", [])
+                          if stream.get("codec_type") == "video"), {})
+            if video.get("height") != int(quality):
+                raise Failure("quality_unavailable")
+        return inputs, True
+
+
+def download_recovering(ydl, post, info, quality, work, max_bytes, ffprobe):
+    """One metadata refresh after a transient transfer failure, then fail honestly.
+
+    New signed URLs must never append to bytes from the previous extraction.
+    Native cancellation/overall time/disk limits still bound this operation.
+    Authentication, unsafe egress, DRM, TLS verification and limits are not retried.
+    """
+    for attempt in range(2):
+        try:
+            return download_attempt(ydl, post, info, quality, work, max_bytes, ffprobe)
+        except Exception as error:
+            if attempt or classify_error(error) not in ("network", "timeout"):
+                raise
+            clear_streams(work)
+            emit({"state": "downloading", "progress": None,
+                  "note": "Kết nối tải bị ngắt. App đang tự lấy lại nguồn và thử lại một lần."})
+            info = ydl.extract_info(post.url, download=False)
+            if not info:
+                raise Failure("extraction_failed")
 
 
 def run(request):
@@ -194,6 +254,7 @@ def run(request):
         "concurrent_fragment_downloads": 1, "hls_prefer_native": True, "hls_skip_ads": False,
         "skip_unavailable_fragments": False, "fixup": "never", "postprocessors": [],
         "progress_hooks": [hook], "overwrites": True, "continuedl": False,
+        "http_chunk_size": HTTP_CHUNK_BYTES,
         "max_filesize": request["max_bytes"],
         "allowed_extractors": ["facebook.*", "instagram.*", "tiktok$", "vm\\.tiktok$", "douyin$", "xiaohongshu$", "youtube$"],
         "usenetrc": False, "allow_unplayable_formats": False,
@@ -201,6 +262,15 @@ def run(request):
     }
     with SafeYDL(options) as ydl:
         post = resolve_post(ydl, post)
+        if request.get("native_http") and post.platform in ("facebook", "instagram"):
+            def native_download(slot, info):
+                # Private pipe only: JobManager consumes this event, never a WebView/log.
+                emit({"state": "native_download", "slot": slot, "url": info["url"],
+                      "headers": info.get("http_headers") or {}})
+                answer = json.loads(sys.stdin.readline(16384))
+                if not answer.get("native_success"):
+                    raise Failure(answer.get("error_code", "network"))
+            ydl.native_http_downloader = native_download
         info = ydl.extract_info(post.url, download=False)
         if not info:
             raise Failure("extraction_failed")
@@ -210,27 +280,9 @@ def run(request):
         emit({"state": "metadata", "title": title, "heights": heights, "platform": post.platform})
         if request["mode"] == "inspect":
             return
-        selected = choose(formats, request["quality"])
         work = Path(request["work_dir"]).resolve()
-        used_fallback = False
-        try:
-            inputs = download_selected(ydl, info, selected, work, request["max_bytes"])
-        except Exception as error:
-            alternate = progressive_fallback(post.platform, formats, error)
-            if [f["url"] for f in alternate] == [f["url"] for f in selected]:
-                raise
-            for path in work.glob("stream-*"):
-                if path.is_file():
-                    path.unlink()
-            emit({"state":"downloading", "progress":None,
-                  "note":"Định dạng ưu tiên chưa truy cập được. Đang thử bản MP4 dự phòng từ cùng nguồn."})
-            inputs = download_selected(ydl, info, alternate, work, request["max_bytes"])
-            if request["quality"] != "best":
-                video = next((stream for stream in probe(inputs[0], request["ffprobe"]).get("streams", [])
-                              if stream.get("codec_type") == "video"), {})
-                if video.get("height") != int(request["quality"]):
-                    raise Failure("quality_unavailable")
-            used_fallback = True
+        inputs, used_fallback = download_recovering(ydl, post, info, request["quality"], work,
+                                                   request["max_bytes"], request["ffprobe"])
         result = mux(inputs, work / "result.mp4", request["ffmpeg"], request["ffprobe"], emit)
         if used_fallback:
             result["note"] += " Định dạng ưu tiên không truy cập được; đã dùng bản khả dụng từ cùng nguồn."

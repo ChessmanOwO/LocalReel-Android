@@ -27,8 +27,8 @@ public class LocalFlowsTest {
  private String complete()throws Exception{JSONArray list=new JSONArray(app.jobs.snapshot());for(int i=0;i<list.length();i++)if(list.getJSONObject(i).optString("state").equals("complete"))return list.getJSONObject(i).getString("id");throw new AssertionError("Run successful live source test first");}
  private JSONObject job(String id)throws Exception{JSONArray list=new JSONArray(app.jobs.snapshot());for(int i=0;i<list.length();i++)if(list.getJSONObject(i).getString("id").equals(id))return list.getJSONObject(i);return null;}
  @Test public void clipboardAndMalformedInputStaySafe()throws Exception{
-  InstrumentationRegistry.getInstrumentation().runOnMainSync(()->context.getSystemService(ClipboardManager.class).setPrimaryClip(ClipData.newPlainText("test","https://youtu.be/jNQXAC9IVRw")));
-  js("document.querySelector('[data-action=paste]').click()");Thread.sleep(250);assertEquals("\"https://youtu.be/jNQXAC9IVRw\"",js("document.querySelector('textarea').value"));
+  InstrumentationRegistry.getInstrumentation().runOnMainSync(()->context.getSystemService(ClipboardManager.class).setPrimaryClip(ClipData.newPlainText("test","https://127.0.0.1/private")));
+  js("document.querySelector('[data-action=paste]').click()");Thread.sleep(250);assertEquals("\"https://127.0.0.1/private\"",js("document.querySelector('textarea').value"));
   int count=new JSONArray(app.jobs.snapshot()).length();js("prefill('https://127.0.0.1/private');document.querySelector('[data-action=submit]').click()");Thread.sleep(250);assertEquals(count,new JSONArray(app.jobs.snapshot()).length());assertEquals("true",js("document.querySelector('#input-error').textContent.includes('HTTPS')"));
  }
  @Test public void duplicateAndSnapshotPrivacy()throws Exception{

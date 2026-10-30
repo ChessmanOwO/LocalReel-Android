@@ -35,9 +35,10 @@ public class LiveDownloadTest {
   try(ActivityScenario<MainActivity> scenario=ActivityScenario.launch(share)){
    report.put("input_mode",paste?"paste":"share_intent");
    Thread.sleep(4000);
-   if(paste){js(scenario,"document.querySelector('[data-action=paste]').click()");Thread.sleep(500);assertEquals("Clipboard URL reached input",url,new JSONArray("["+js(scenario,"document.querySelector('textarea').value")+"]").getString(0));}
-   if("false".equals(args.getString("ask_quality")))js(scenario,"document.querySelector('#ask').checked=false");
-   js(scenario,"document.querySelector('[data-action=submit]').click()");long end=SystemClock.elapsedRealtime()+660000;String last="";boolean chosen=false;
+   js(scenario,"document.querySelector('#ask').checked="+("true".equals(args.getString("ask_quality"))?"true":"false"));
+   if(paste){js(scenario,"document.querySelector('[data-action=paste]').click()");report.put("paste_auto_submit",true);}
+   else js(scenario,"document.querySelector('[data-action=submit]').click()");
+   long end=SystemClock.elapsedRealtime()+660000;String last="";boolean chosen=false;
    while(SystemClock.elapsedRealtime()<end){JSONArray list=new JSONArray(app.jobs.snapshot());for(int i=0;i<list.length();i++)if(!old.contains(list.getJSONObject(i).getString("id"))&&UrlPolicy.identity(app.jobs.source(list.getJSONObject(i).getString("id"))).equals(UrlPolicy.identity(url))){result=list.getJSONObject(i);break;}
     if(result==null&&SystemClock.elapsedRealtime()>end-640000)fail("No job created within 20 seconds after submit");
     if(result!=null){String state=result.getString("state");if(!last.equals(state)){states.put(state);last=state;}

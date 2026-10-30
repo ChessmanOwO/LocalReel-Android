@@ -1,0 +1,12 @@
+{
+  "date": "2026-10-30",
+  "version": "0.3-direct",
+  "apk_sha256": "9ce65d506a209aa6cf921f0ccf0e2c4ff9ee44dc8864f5b25c2f846c77fa63ac",
+  "live_download_success": 5,
+  "live_download_failed": 3,
+  "browser_launches": 0,
+  "python_tests_passed": 34,
+  "java_tests_passed": 9,
+  "ui_node_assertions_passed": 16,
+  "physical_phone_tested": false
+}

@@ -9,3 +9,5 @@ Source app Android này được phân phối theo GPL-3.0 tương thích thư v
 - AndroidX core **1.13.1**, Apache-2.0; Kotlin BOM **1.9.24**, Apache-2.0, các dependency được Gradle giải từ Maven Central/Google.
 
 Đây là tool cá nhân; không có dịch vụ tải video bên thứ ba. Các URL mạng xã hội chỉ đi trực tiếp tới nguồn/CDN, còn các URL trên là nguồn dependency/build, không phải dịch vụ tải.
+
+- OkHttp **4.12.0** và Okio **3.6.0**, Apache-2.0: https://github.com/square/okhttp/tree/parent-4.12.0 và https://github.com/square/okio/tree/3.6.0 . Android TLS nhận MP4 trực tiếp của Facebook/Instagram; không dùng dịch vụ trung gian.

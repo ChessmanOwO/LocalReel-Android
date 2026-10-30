@@ -1,0 +1,404 @@
+[
+  {
+    "source_url": "https://www.facebook.com/cnn/videos/10155529876156509/",
+    "android_runtime": true,
+    "synthetic_media": false,
+    "states": [
+      "inspecting",
+      "downloading",
+      "processing",
+      "complete"
+    ],
+    "input_mode": "paste",
+    "paste_auto_submit": true,
+    "job": {
+      "id": "e5c99abc-9c86-48bc-9623-772b56e80d7f",
+      "platform": "Facebook",
+      "title": "Holocaust survivor becomes US citizen",
+      "state": "complete",
+      "quality": "best",
+      "created_at": 1793339866477,
+      "heights": [
+        1080,
+        720,
+        540,
+        360
+      ],
+      "note": "Đã chuyển mã cho MP4 tương thích Android; có thể giảm chất lượng.",
+      "transcoded": true,
+      "received": 273747,
+      "progress": 1,
+      "size": 18194497,
+      "width": 1080,
+      "height": 1080,
+      "fallback": false
+    },
+    "reused_existing": false,
+    "success": true,
+    "bytes": 18194497,
+    "source_browser_launch_attempts": 0,
+    "case": "facebook",
+    "seconds": 102.34,
+    "instrumentation_passed": true,
+    "media_probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "codec_type": "video",
+          "width": 1080,
+          "height": 1080
+        },
+        {
+          "codec_name": "aac",
+          "codec_type": "audio"
+        }
+      ],
+      "format": {
+        "duration": "44.330667",
+        "size": "18194497"
+      }
+    },
+    "sha256": "8319cdb592953569a14f72ccc46da6bb85ed672c34aab5e50b19901ba3bf6752"
+  },
+  {
+    "source_url": "https://www.instagram.com/reel/Dcea3BiPTBm/",
+    "android_runtime": true,
+    "synthetic_media": false,
+    "states": [
+      "inspecting",
+      "downloading",
+      "processing",
+      "complete"
+    ],
+    "input_mode": "paste",
+    "paste_auto_submit": true,
+    "job": {
+      "id": "9f991042-e528-481f-a4d8-6f7de6f770c0",
+      "platform": "Instagram",
+      "title": "Video by nasajohnson",
+      "state": "complete",
+      "quality": "best",
+      "created_at": 1793339969838,
+      "heights": [
+        1920,
+        1280
+      ],
+      "note": "Đã chuyển mã cho MP4 tương thích Android; có thể giảm chất lượng.",
+      "transcoded": true,
+      "received": 305361,
+      "progress": 1,
+      "size": 19478386,
+      "width": 1080,
+      "height": 1920,
+      "fallback": false
+    },
+    "reused_existing": false,
+    "success": true,
+    "bytes": 19478386,
+    "source_browser_launch_attempts": 0,
+    "case": "instagram",
+    "seconds": 119.55,
+    "instrumentation_passed": true,
+    "media_probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "codec_type": "video",
+          "width": 1080,
+          "height": 1920
+        },
+        {
+          "codec_name": "aac",
+          "codec_type": "audio"
+        }
+      ],
+      "format": {
+        "duration": "41.078005",
+        "size": "19478386"
+      }
+    },
+    "sha256": "bcb6fd4fa1353693fa785a9bc3891689b28e65b7655abc4a9ac35e74f79a5abb"
+  },
+  {
+    "source_url": "https://youtu.be/jNQXAC9IVRw",
+    "android_runtime": true,
+    "synthetic_media": false,
+    "states": [
+      "inspecting",
+      "processing",
+      "complete"
+    ],
+    "input_mode": "paste",
+    "paste_auto_submit": true,
+    "job": {
+      "id": "58f48335-8dda-4ea2-b756-aa87077825fd",
+      "platform": "YouTube",
+      "title": "Me at the zoo",
+      "state": "complete",
+      "quality": "best",
+      "created_at": 1793340089812,
+      "heights": [
+        240,
+        144
+      ],
+      "note": "Đã remux MP4 bằng streamcopy; không mã hóa lại hình/tiếng.",
+      "transcoded": false,
+      "progress": 1,
+      "received": 309288,
+      "size": 635479,
+      "width": 320,
+      "height": 240,
+      "fallback": false
+    },
+    "reused_existing": false,
+    "success": true,
+    "bytes": 635479,
+    "source_browser_launch_attempts": 0,
+    "case": "youtube-video",
+    "seconds": 10.83,
+    "instrumentation_passed": true,
+    "media_probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "codec_type": "video",
+          "width": 320,
+          "height": 240
+        },
+        {
+          "codec_name": "aac",
+          "codec_type": "audio"
+        }
+      ],
+      "format": {
+        "duration": "19.063583",
+        "size": "635479"
+      }
+    },
+    "sha256": "0fe278d95ecb205ea954a4a610ccc82320f876ff1971b9d4c8e5c946ae01931b"
+  },
+  {
+    "source_url": "https://www.youtube.com/shorts/BGQWPY4IigY",
+    "android_runtime": true,
+    "synthetic_media": false,
+    "states": [
+      "queued",
+      "inspecting",
+      "awaiting_selection",
+      "inspecting",
+      "downloading",
+      "processing",
+      "complete"
+    ],
+    "input_mode": "share_intent",
+    "job": {
+      "id": "14b29f50-f3b5-4662-88ae-183db89e9b03",
+      "platform": "YouTube",
+      "title": "MET THE LOVE OF MY LIFE ON AN AIRPLANE *caught on camera*",
+      "state": "complete",
+      "quality": "best",
+      "created_at": 1793340100850,
+      "heights": [
+        1280,
+        1080,
+        854,
+        720,
+        640,
+        480,
+        426,
+        360,
+        256,
+        240,
+        144
+      ],
+      "note": "Đã chuyển mã cho MP4 tương thích Android; có thể giảm chất lượng.",
+      "transcoded": true,
+      "progress": 1,
+      "received": 233717,
+      "size": 5346308,
+      "width": 720,
+      "height": 1280,
+      "fallback": false
+    },
+    "reused_existing": false,
+    "success": true,
+    "bytes": 5346308,
+    "source_browser_launch_attempts": 0,
+    "case": "youtube-shorts",
+    "seconds": 37.97,
+    "instrumentation_passed": true,
+    "media_probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "codec_type": "video",
+          "width": 720,
+          "height": 1280
+        },
+        {
+          "codec_name": "aac",
+          "codec_type": "audio"
+        }
+      ],
+      "format": {
+        "duration": "14.396372",
+        "size": "5346308"
+      }
+    },
+    "sha256": "32e64d40d20b05139acfecf09cae71d88f95f87d339d1dbef524c7a8253e8d1d"
+  },
+  {
+    "source_url": "https://www.tiktok.com/@hankgreen1/video/7047596209028074758",
+    "android_runtime": true,
+    "synthetic_media": false,
+    "states": [
+      "inspecting",
+      "downloading",
+      "complete"
+    ],
+    "input_mode": "paste",
+    "paste_auto_submit": true,
+    "job": {
+      "id": "291311f9-d3ab-4e53-a895-c62077602f42",
+      "platform": "TikTok",
+      "title": "TikTok video #7047596209028074758",
+      "state": "complete",
+      "quality": "best",
+      "created_at": 1793340139277,
+      "heights": [
+        1024
+      ],
+      "note": "Đã remux MP4 bằng streamcopy; không mã hóa lại hình/tiếng.",
+      "transcoded": false,
+      "progress": 1,
+      "received": 5076682,
+      "size": 5076763,
+      "width": 576,
+      "height": 1024,
+      "fallback": false
+    },
+    "reused_existing": false,
+    "success": true,
+    "bytes": 5076763,
+    "source_browser_launch_attempts": 0,
+    "case": "tiktok",
+    "seconds": 13.05,
+    "instrumentation_passed": true,
+    "media_probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "codec_type": "video",
+          "width": 576,
+          "height": 1024
+        },
+        {
+          "codec_name": "aac",
+          "codec_type": "audio"
+        }
+      ],
+      "format": {
+        "duration": "21.268005",
+        "size": "5076763"
+      }
+    },
+    "sha256": "544ceb9df4574aaeee9e08c9b79f0959be4bf58f1fba609f7e239a21242d0296"
+  },
+  {
+    "source_url": "https://www.douyin.com/video/6961737553342991651",
+    "android_runtime": true,
+    "synthetic_media": false,
+    "states": [
+      "inspecting",
+      "error"
+    ],
+    "input_mode": "paste",
+    "paste_auto_submit": true,
+    "job": {
+      "id": "f275c6d3-a70b-4ef6-86fd-e0e5e819f4a2",
+      "platform": "Douyin",
+      "title": "Video",
+      "state": "error",
+      "quality": "best",
+      "created_at": 1793340152507,
+      "heights": [],
+      "note": "",
+      "transcoded": false,
+      "error_code": "login_required"
+    },
+    "reused_existing": false,
+    "success": false,
+    "source_browser_launch_attempts": 0,
+    "case": "douyin",
+    "seconds": 8.8,
+    "instrumentation_passed": false
+  },
+  {
+    "source_url": "https://www.xiaohongshu.com/explore/6411cf99000000001300b6d9",
+    "android_runtime": true,
+    "synthetic_media": false,
+    "states": [
+      "inspecting",
+      "error"
+    ],
+    "input_mode": "paste",
+    "paste_auto_submit": true,
+    "job": {
+      "id": "ce1823d5-cb9d-43cb-8387-92c5c9a8c8ca",
+      "platform": "Xiaohongshu",
+      "title": "Video",
+      "state": "error",
+      "quality": "best",
+      "created_at": 1793340161497,
+      "heights": [],
+      "note": "",
+      "transcoded": false,
+      "error_code": "extraction_failed"
+    },
+    "reused_existing": false,
+    "success": false,
+    "source_browser_launch_attempts": 0,
+    "case": "xiaohongshu",
+    "seconds": 9.61,
+    "instrumentation_passed": false
+  },
+  {
+    "source_url": "https://vm.tiktok.com/ZTR45GpSF/",
+    "android_runtime": true,
+    "synthetic_media": false,
+    "states": [
+      "inspecting",
+      "error"
+    ],
+    "input_mode": "paste",
+    "paste_auto_submit": true,
+    "job": {
+      "id": "30f9f6a3-ab2e-4665-8a27-2f2fc6e8482f",
+      "platform": "TikTok",
+      "title": "Video",
+      "state": "error",
+      "quality": "best",
+      "created_at": 1793340171022,
+      "heights": [],
+      "note": "",
+      "transcoded": false,
+      "error_code": "unsupported_url"
+    },
+    "reused_existing": false,
+    "success": false,
+    "source_browser_launch_attempts": 0,
+    "case": "tiktok-short",
+    "seconds": 9.27,
+    "instrumentation_passed": false
+  }
+]

@@ -1,4 +1,5 @@
 MESSAGES = {
+    "tls_verification_failed": "Không xác minh được kết nối bảo mật tới nguồn. Kiểm tra ngày giờ và mạng rồi thử lại.",
     "network": "Kết nối tới nguồn bị lỗi. Thử lại hoặc đổi mạng.",
     "unsupported_url": "Liên kết chưa được hỗ trợ. Hãy dùng URL bài video/Reel Facebook, Instagram, TikTok, Douyin, Xiaohongshu hoặc YouTube.",
     "unsafe_url": "Địa chỉ bị chặn vì không an toàn hoặc trỏ vào mạng nội bộ.",
@@ -33,6 +34,8 @@ def classify_error(error: Exception) -> str:
         return error.code
     # Never expose the raw exception: yt-dlp often embeds signed URLs and headers.
     value = str(error).lower()
+    if any(s in value for s in ("certificate_verify_failed", "certificate verify failed", "certificate verification failed")):
+        return "tls_verification_failed"
     if any(s in value for s in ("unsafe_url", "non-public", "blocked address")):
         return "unsafe_url"
     if any(s in value for s in ("[ssl]", "sslerror", "record layer", "connection reset", "timed out", "network is unreachable")):

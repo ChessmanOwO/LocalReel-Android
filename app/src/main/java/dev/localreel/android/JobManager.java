@@ -22,6 +22,7 @@ public final class JobManager {
     private final ScheduledExecutorService timer=Executors.newSingleThreadScheduledExecutor();
     private final Handler main=new Handler(Looper.getMainLooper());
     private volatile Process process;
+    private volatile NativeMediaDownloader mediaNetwork;
     private volatile String current;
     private boolean active, initialized, stopRequested=true;
     private long serviceGeneration=0,activeGeneration=0;
@@ -62,7 +63,7 @@ public final class JobManager {
             put(j,"quality",q);put(j,"state","queued");pending.add(id);changed();startService();
         } else if(action.equals("cancel")){
             if(TERMINAL.contains(state))return;pending.remove(id);put(j,"state","cancelling");changed();
-            if(id.equals(current)){if(process!=null)process.destroy();}
+            if(id.equals(current)){cancelMedia();if(process!=null)process.destroy();}
             else {clean(id,false);put(j,"state","cancelled");changed();}
         } else if(action.equals("retry")){
             if(!Arrays.asList("error","cancelled").contains(state)||id.equals(current))return;
@@ -101,18 +102,32 @@ public final class JobManager {
         env.put("PYTHONHOME",python.getAbsolutePath());env.put("HOME",python.getAbsolutePath());env.put("PYTHONUTF8","1");env.put("PYTHONDONTWRITEBYTECODE","1");env.put("YTDLP_NO_PLUGINS","1");
         env.put("SSL_CERT_FILE",new File(python,"etc/tls/cert.pem").getAbsolutePath());env.put("TMPDIR",context.getCacheDir().getAbsolutePath());
         env.put("LD_LIBRARY_PATH",new File(python,"lib").getAbsolutePath()+":"+new File(packages,"ffmpeg/usr/lib").getAbsolutePath());
-        JSONObject request=new JSONObject();put(request,"url",job.optString("url"));put(request,"mode",inspect?"inspect":"download");put(request,"quality",job.optString("quality"));final boolean unbounded=unlimited();final long cap=unbounded?Long.MAX_VALUE:MAX_BYTES;put(request,"max_bytes",cap);put(request,"timeout",unbounded?0:600);put(request,"work_dir",directory.getAbsolutePath());put(request,"ffmpeg",new File(bin,"libffmpeg.so").getAbsolutePath());put(request,"ffprobe",new File(bin,"libffprobe.so").getAbsolutePath());
-        final Process p;synchronized(this){if(stopRequested||generation!=serviceGeneration||job.optString("state").equals("cancelling")||job.optString("state").equals("error"))throw new InterruptedException();p=pb.start();process=p;}
+        JSONObject request=new JSONObject();put(request,"native_http",true);put(request,"url",job.optString("url"));put(request,"mode",inspect?"inspect":"download");put(request,"quality",job.optString("quality"));final boolean unbounded=unlimited();final long cap=unbounded?Long.MAX_VALUE:MAX_BYTES;put(request,"max_bytes",cap);put(request,"timeout",unbounded?0:600);put(request,"work_dir",directory.getAbsolutePath());put(request,"ffmpeg",new File(bin,"libffmpeg.so").getAbsolutePath());put(request,"ffprobe",new File(bin,"libffprobe.so").getAbsolutePath());
+        final NativeMediaDownloader transport=new NativeMediaDownloader();
+        final Process p;synchronized(this){if(stopRequested||generation!=serviceGeneration||job.optString("state").equals("cancelling")||job.optString("state").equals("error"))throw new InterruptedException();transport.begin();mediaNetwork=transport;p=pb.start();process=p;}
         Thread stderr=new Thread(()->{try(InputStream in=p.getErrorStream()){byte[] b=new byte[8192];while(in.read(b)!=-1){} }catch(IOException ignored){}});stderr.setDaemon(true);stderr.start();
-        try(OutputStream in=p.getOutputStream()){in.write((request.toString()+"\n").getBytes(StandardCharsets.UTF_8));}
+        final OutputStream feed=p.getOutputStream();feed.write((request.toString()+"\n").getBytes(StandardCharsets.UTF_8));feed.flush();
         long start=SystemClock.elapsedRealtime();ScheduledFuture<?> watcher=timer.scheduleWithFixedDelay(()->{
             String code=null;if(!unbounded&&SystemClock.elapsedRealtime()-start>600000)code="timeout";else if((!unbounded&&(size(directory)>MAX_BYTES || size(root)>DISK_BYTES)) || root.getUsableSpace()<32L*1024*1024)code="limit";
-            if(code!=null){synchronized(this){if(!job.optString("state").equals("cancelling")){put(job,"state","error");put(job,"error_code",code);changed();}}p.destroy();}
+            if(code!=null){synchronized(this){if(process!=p||generation!=serviceGeneration||TERMINAL.contains(job.optString("state")))return;if(!job.optString("state").equals("cancelling")){put(job,"state","error");put(job,"error_code",code);changed();}transport.cancel();p.destroy();}}
         },250,250,TimeUnit.MILLISECONDS);
         JSONObject completed=null;boolean metadata=false;
         try(BufferedReader reader=new BufferedReader(new InputStreamReader(p.getInputStream(),StandardCharsets.UTF_8))){String line;
             while((line=reader.readLine())!=null){if(line.length()>65536)throw new IOException();JSONObject event;try{event=new JSONObject(line);}catch(JSONException ignored){continue;}
-                String state=event.optString("state");synchronized(this){
+                String state=event.optString("state");
+                if(state.equals("native_download")){
+                    JSONObject answer=new JSONObject();
+                    try{
+                        synchronized(this){if(stopRequested||generation!=serviceGeneration||job.optString("state").equals("cancelling")||job.optString("state").equals("error"))throw new NativeMediaDownloader.Failure("interrupted");}
+                        transport.download(event,directory,unbounded?cap:Math.max(0,cap-size(directory)),(received,total)->{synchronized(JobManager.this){
+                            if(process==p&&generation==serviceGeneration&&!stopRequested&&!TERMINAL.contains(job.optString("state"))&&!job.optString("state").equals("cancelling")){
+                                put(job,"state","downloading");put(job,"received",received);put(job,"progress",total>0?0.1+0.75*Math.min((double)received/total,1):null);changed();
+                            }
+                        }});put(answer,"native_success",true);
+                    }catch(Exception failure){put(answer,"native_success",false);put(answer,"error_code",failure instanceof NativeMediaDownloader.Failure?((NativeMediaDownloader.Failure)failure).code:"network");}
+                    if(!p.isAlive())break;feed.write((answer.toString()+"\n").getBytes(StandardCharsets.UTF_8));feed.flush();continue;
+                }
+                synchronized(this){
                     if(job.optString("state").equals("cancelling")||job.optString("state").equals("error"))continue;
                     if(state.equals("metadata")){metadata=true;put(job,"title",event.optString("title","Video"));put(job,"heights",event.optJSONArray("heights"));}
                     else if(state.equals("complete"))completed=event;
@@ -128,8 +143,9 @@ public final class JobManager {
                 else{put(job,"state","error");put(job,"error_code","extraction_failed");}
                 changed();
             }
-        }finally{watcher.cancel(false);if(p.isAlive()){p.destroy();if(!p.waitFor(5,TimeUnit.SECONDS))p.destroyForcibly();}}
+        }finally{watcher.cancel(false);transport.close();synchronized(this){if(mediaNetwork==transport)mediaNetwork=null;}try{feed.close();}catch(IOException ignored){}if(p.isAlive()){p.destroy();if(!p.waitFor(5,TimeUnit.SECONDS))p.destroyForcibly();}}
     }
+    private void cancelMedia(){NativeMediaDownloader network=mediaNetwork;if(network!=null)network.cancel();}
     private void verify(File file)throws Exception{MediaExtractor ex=new MediaExtractor();try{ex.setDataSource(file.getAbsolutePath());boolean audio=false,video=false;for(int i=0;i<ex.getTrackCount();i++){String type=ex.getTrackFormat(i).getString(MediaFormat.KEY_MIME);audio|=type!=null&&type.startsWith("audio/");video|=type!=null&&type.startsWith("video/");}if(!audio||!video||file.length()==0)throw new IOException();}finally{ex.release();}}
     public synchronized File file(String id){JSONObject j=jobs.get(UrlPolicy.id(id));File f=new File(dir(id),"result.mp4");if(j==null||!j.optString("state").equals("complete")||!f.isFile())throw new IllegalArgumentException();return f;}
     public synchronized String source(String id){JSONObject j=jobs.get(UrlPolicy.id(id));if(j==null)throw new IllegalArgumentException();String url=j.optString("url");UrlPolicy.validate(url);return url;}
@@ -146,12 +162,12 @@ public final class JobManager {
         if(plannedIdleStop&&code.equals("interrupted")){
             plannedIdleStop=false;JSONObject running=jobs.get(current);
             if(running!=null&&!TERMINAL.contains(running.optString("state"))&&!running.optString("state").equals("cancelling")){put(running,"state","queued");put(running,"progress",null);if(!pending.contains(current))pending.addFirst(current);}
-            if(process!=null)process.destroy();changed();return;
+            cancelMedia();if(process!=null)process.destroy();changed();return;
         }
         plannedIdleStop=false;
         for(String id:pending){JSONObject j=jobs.get(id);if(j!=null){put(j,"state","error");put(j,"error_code","interrupted");}}
         pending.clear();JSONObject j=jobs.get(current);
         if(j!=null&&!TERMINAL.contains(j.optString("state"))&&!j.optString("state").equals("cancelling")){put(j,"state","error");put(j,"error_code",code);}
-        if(process!=null)process.destroy();changed();
+        cancelMedia();if(process!=null)process.destroy();changed();
     }
 }
